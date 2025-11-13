@@ -1,3 +1,5 @@
+version: '3.9'
+
 services:
   api:
     build: .
@@ -10,6 +12,19 @@ services:
       - PORT=3000
     volumes:
       - .:/app
-      # evita que tu carpeta local vacía sobrescriba node_modules dentro del contenedor
       - /app/node_modules
     command: npm run dev
+    # opcional: para usar nodemon dentro del contenedor
+    tty: true
+
+  test:
+    build: .
+    container_name: ai-express-tests
+    environment:
+      - NODE_ENV=test
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - .:/app
+      - /app/node_modules
+    # Jest se ejecuta dentro del contenedor
+    command: ["npm", "test"]
