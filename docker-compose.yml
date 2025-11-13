@@ -1,0 +1,15 @@
+services:
+  api:
+    build: .
+    container_name: ai-express-api
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - PORT=3000
+    volumes:
+      - .:/app
+      # evita que tu carpeta local vacía sobrescriba node_modules dentro del contenedor
+      - /app/node_modules
+    command: npm run dev
